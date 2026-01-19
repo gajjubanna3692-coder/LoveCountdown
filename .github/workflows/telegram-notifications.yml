@@ -1,36 +1,56 @@
-name: Send Daily Telegram Notifications
+name: 🎂 Daily Birthday Countdown Notifications
 
 on:
   schedule:
     # Runs at 10:00 AM UTC every day
+    # Format: minute hour day month day-of-week
     - cron: '0 10 * * *'
-  workflow_dispatch: # Allows manual triggering
+  
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
     inputs:
-      day:
-        description: 'Day number to send (optional)'
+      day_override:
+        description: 'Override day number (1-20)'
         required: false
+        type: number
+
+# Add permissions for workflow
+permissions:
+  contents: write  # Allows writing to subscribers.json
 
 jobs:
-  send-notifications:
+  send-daily-notification:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
-        
-      - name: Setup Node.js
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
           
-      - name: Install dependencies
-        run: npm install
+      - name: 📦 Install dependencies
+        run: npm init -y && npm install dotenv
         
-      - name: Send Telegram notifications
+      - name: 🤖 Send Telegram notifications
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           GITHUB_PAGES_URL: ${{ secrets.GITHUB_PAGES_URL }}
+          DAY_OVERRIDE: ${{ inputs.day_override }}
         run: node telegram-bot.js
         
-      - name: Log completion
-        run: echo "Telegram notifications sent successfully"
+      - name: 💾 Commit any changes
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add -A
+          git commit -m "📅 Update subscriber data" || echo "No changes to commit"
+          git push
+          
+      - name: ✅ Completion message
+        run: echo "🎉 Daily notifications sent successfully!"
