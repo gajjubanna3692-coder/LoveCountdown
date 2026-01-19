@@ -1,0 +1,49 @@
+{
+    "name": "Romantic Birthday Countdown",
+    "short_name": "BirthdayLove",
+    "description": "A romantic 20-day countdown to your special birthday",
+    "theme_color": "#ff69b4",
+    "background_color": "#fff0f5",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "images/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "images/screenshot-1.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Romantic Countdown Home Screen"
+        }
+    ],
+    "categories": ["lifestyle", "entertainment"],
+    "shortcuts": [
+        {
+            "name": "Today's Message",
+            "short_name": "Today",
+            "description": "View today's romantic message",
+            "url": "/?today=1"
+        },
+        {
+            "name": "Birthday Page",
+            "short_name": "Birthday",
+            "description": "Go to birthday celebration",
+            "url": "/birthday.html"
+        }
+    ]
+}
