@@ -1,0 +1,19 @@
+{
+  "name": "love-countdown",
+  "version": "1.0.0",
+  "description": "Romantic birthday countdown with Telegram notifications",
+  "main": "telegram-bot.js",
+  "scripts": {
+    "start": "node telegram-bot.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "node-fetch": "2.6.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["romantic", "birthday", "countdown", "telegram", "pwa"],
+  "author": "Your Name",
+  "license": "MIT"
+}
