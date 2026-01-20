@@ -11,7 +11,7 @@ class BirthdayCountdownApp {
         this.startDate = this.getStartDate();
         this.userCode = this.generateUserCode();
         
-        // Media configuration
+        // Fixed media paths - users cannot change these
         this.mediaConfig = {
             baseImagePath: 'images/day-',
             baseVideoPath: 'videos/day-',
@@ -90,8 +90,9 @@ class BirthdayCountdownApp {
         const letter = this.letters[dayNumber - 1];
         const word = this.words[dayNumber - 1];
         
-        // Check if custom image exists for this day
-        const hasCustomImage = this.checkMediaExists('image', dayNumber);
+        // Try to load the image for thumbnail
+        const imagePath = this.getImagePath(dayNumber);
+        const hasCustomImage = this.imageExists(imagePath);
 
         const card = document.createElement('div');
         card.className = `day-card ${isUnlocked ? 'unlocked' : 'locked'}`;
@@ -104,7 +105,7 @@ class BirthdayCountdownApp {
             <div class="day-content">
                 ${hasCustomImage ? 
                     `<div class="day-thumbnail" style="
-                        background-image: url('${this.getImagePath(dayNumber)}');
+                        background-image: url('${imagePath}');
                         background-size: cover;
                         background-position: center;
                         height: 120px;
@@ -234,7 +235,7 @@ class BirthdayCountdownApp {
                         <section class="media-section">
                             <h3 class="media-header">
                                 <i class="fas fa-images"></i>
-                                Today's Special Memories
+                                Today's Special Surprise
                             </h3>
                             
                             <div class="media-grid">
@@ -242,15 +243,10 @@ class BirthdayCountdownApp {
                                 <div class="media-card">
                                     <div class="media-card-header">
                                         <i class="fas fa-image"></i>
-                                        <h4>Romantic Image</h4>
+                                        <h4>Your Special Image</h4>
                                     </div>
                                     <div class="media-placeholder" id="image-placeholder-${dayNumber}">
                                         ${this.getImageHtml(dayNumber)}
-                                    </div>
-                                    <div class="media-upload-section">
-                                        <button class="upload-button" onclick="uploadImage(${dayNumber})">
-                                            <i class="fas fa-cloud-upload-alt"></i> ${this.checkMediaExists('image', dayNumber) ? 'Change Image' : 'Upload Image'}
-                                        </button>
                                     </div>
                                 </div>
                                 
@@ -258,17 +254,26 @@ class BirthdayCountdownApp {
                                 <div class="media-card">
                                     <div class="media-card-header">
                                         <i class="fas fa-video"></i>
-                                        <h4>Romantic Video</h4>
+                                        <h4>Your Video Message</h4>
                                     </div>
                                     <div class="media-placeholder" id="video-placeholder-${dayNumber}">
                                         ${this.getVideoHtml(dayNumber)}
                                     </div>
-                                    <div class="media-upload-section">
-                                        <button class="upload-button" onclick="uploadVideo(${dayNumber})">
-                                            <i class="fas fa-video"></i> ${this.checkMediaExists('video', dayNumber) ? 'Change Video' : 'Upload Video'}
-                                        </button>
-                                    </div>
                                 </div>
+                            </div>
+                            
+                            <!-- Media Info -->
+                            <div class="media-info" style="
+                                background: #f8f9fa;
+                                padding: 15px;
+                                border-radius: 10px;
+                                margin-top: 20px;
+                                text-align: center;
+                                color: #666;
+                                font-size: 0.9rem;
+                            ">
+                                <i class="fas fa-info-circle"></i> 
+                                This special content is just for you. Enjoy today's surprise!
                             </div>
                         </section>
                         
@@ -326,105 +331,6 @@ class BirthdayCountdownApp {
                         }
                     }
                     
-                    // Media upload functions
-                    function uploadImage(dayNumber) {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        
-                        input.onchange = function(e) {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    const placeholder = document.getElementById('image-placeholder-' + dayNumber);
-                                    placeholder.innerHTML = \`<img src="\${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Day \${dayNumber} image">\`;
-                                    
-                                    // Save to localStorage
-                                    const key = 'day' + dayNumber + '-image';
-                                    localStorage.setItem(key, e.target.result);
-                                    
-                                    // Update button text
-                                    const button = placeholder.nextElementSibling.querySelector('.upload-button');
-                                    button.innerHTML = '<i class="fas fa-sync-alt"></i> Change Image';
-                                };
-                                reader.readAsDataURL(file);
-                            }
-                        };
-                        input.click();
-                    }
-                    
-                    function uploadVideo(dayNumber) {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'video/*';
-                        
-                        input.onchange = function(e) {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    const placeholder = document.getElementById('video-placeholder-' + dayNumber);
-                                    placeholder.innerHTML = \`
-                                        <video controls style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
-                                            <source src="\${e.target.result}" type="\${file.type}">
-                                        </video>
-                                    \`;
-                                    
-                                    // Save to localStorage
-                                    const key = 'day' + dayNumber + '-video';
-                                    localStorage.setItem(key, e.target.result);
-                                    
-                                    // Update button text
-                                    const button = placeholder.nextElementSibling.querySelector('.upload-button');
-                                    button.innerHTML = '<i class="fas fa-sync-alt"></i> Change Video';
-                                };
-                                reader.readAsDataURL(file);
-                            }
-                        };
-                        input.click();
-                    }
-                    
-                    // Load saved media from localStorage
-                    function loadSavedMedia() {
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const dayNumber = parseInt(urlParams.get('day')) || 1;
-                        
-                        // Load image
-                        const savedImage = localStorage.getItem('day' + dayNumber + '-image');
-                        if (savedImage) {
-                            const imagePlaceholder = document.getElementById('image-placeholder-' + dayNumber);
-                            if (imagePlaceholder) {
-                                imagePlaceholder.innerHTML = \`<img src="\${savedImage}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Day \${dayNumber} image">\`;
-                                
-                                // Update button text
-                                const imageButton = imagePlaceholder.nextElementSibling.querySelector('.upload-button');
-                                if (imageButton) {
-                                    imageButton.innerHTML = '<i class="fas fa-sync-alt"></i> Change Image';
-                                }
-                            }
-                        }
-                        
-                        // Load video
-                        const savedVideo = localStorage.getItem('day' + dayNumber + '-video');
-                        if (savedVideo) {
-                            const videoPlaceholder = document.getElementById('video-placeholder-' + dayNumber);
-                            if (videoPlaceholder) {
-                                videoPlaceholder.innerHTML = \`
-                                    <video controls style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
-                                        <source src="\${savedVideo}" type="video/mp4">
-                                    </video>
-                                \`;
-                                
-                                // Update button text
-                                const videoButton = videoPlaceholder.nextElementSibling.querySelector('.upload-button');
-                                if (videoButton) {
-                                    videoButton.innerHTML = '<i class="fas fa-sync-alt"></i> Change Video';
-                                }
-                            }
-                        }
-                    }
-                    
                     // Check if day is unlocked
                     function checkDayUnlocked() {
                         const urlParams = new URLSearchParams(window.location.search);
@@ -463,9 +369,7 @@ class BirthdayCountdownApp {
                     
                     // Initialize
                     document.addEventListener('DOMContentLoaded', function() {
-                        if (checkDayUnlocked()) {
-                            loadSavedMedia();
-                        }
+                        checkDayUnlocked();
                     });
                 </script>
             </body>
@@ -564,23 +468,32 @@ class BirthdayCountdownApp {
                             </div>
                         </section>
                         
+                        <!-- Birthday Gallery with Pre-Placed Images -->
                         <section class="media-section">
                             <h3 class="media-header">
                                 <i class="fas fa-images"></i>
-                                Birthday Memories
+                                Our Birthday Memories
                             </h3>
                             
-                            <div class="photo-gallery" id="birthday-gallery">
+                            <div class="photo-gallery">
                                 ${this.getBirthdayGalleryHtml()}
                             </div>
                             
-                            <div class="media-upload-section" style="text-align: center; margin-top: 20px;">
-                                <button class="upload-button" onclick="addBirthdayPhoto()">
-                                    <i class="fas fa-plus"></i> Add Birthday Photos
-                                </button>
+                            <div class="media-info" style="
+                                background: #f8f9fa;
+                                padding: 15px;
+                                border-radius: 10px;
+                                margin-top: 20px;
+                                text-align: center;
+                                color: #666;
+                                font-size: 0.9rem;
+                            ">
+                                <i class="fas fa-heart"></i> 
+                                These memories are forever cherished. Happy Birthday!
                             </div>
                         </section>
                         
+                        <!-- Birthday Video -->
                         <section class="memory-section">
                             <div class="memory-header">
                                 <i class="fas fa-video"></i>
@@ -589,12 +502,6 @@ class BirthdayCountdownApp {
                             
                             <div class="media-placeholder" id="birthday-video">
                                 ${this.getBirthdayVideoHtml()}
-                            </div>
-                            
-                            <div class="media-upload-section" style="text-align: center;">
-                                <button class="upload-button" onclick="uploadBirthdayVideo()">
-                                    <i class="fas fa-video"></i> Upload Birthday Video
-                                </button>
                             </div>
                         </section>
                         
@@ -663,97 +570,8 @@ class BirthdayCountdownApp {
                         }), 400);
                     }
                     
-                    function addBirthdayPhoto() {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        input.multiple = true;
-                        
-                        input.onchange = function(e) {
-                            const files = Array.from(e.target.files);
-                            const gallery = document.getElementById('birthday-gallery');
-                            
-                            files.forEach((file, index) => {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    // Create new photo item or replace placeholder
-                                    const photoItems = gallery.querySelectorAll('.photo-item');
-                                    let photoItem;
-                                    
-                                    if (index < photoItems.length) {
-                                        photoItem = photoItems[index];
-                                    } else {
-                                        photoItem = document.createElement('div');
-                                        photoItem.className = 'photo-item';
-                                        gallery.appendChild(photoItem);
-                                    }
-                                    
-                                    photoItem.innerHTML = \`<img src="\${e.target.result}" alt="Birthday photo \${index + 1}">\`;
-                                    
-                                    // Save to localStorage
-                                    localStorage.setItem(\`birthday-photo-\${index}\`, e.target.result);
-                                };
-                                reader.readAsDataURL(file);
-                            });
-                        };
-                        input.click();
-                    }
-                    
-                    function uploadBirthdayVideo() {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'video/*';
-                        
-                        input.onchange = function(e) {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    const placeholder = document.getElementById('birthday-video');
-                                    placeholder.innerHTML = \`
-                                        <video controls style="width:100%;height:100%;object-fit:cover;border-radius:15px;">
-                                            <source src="\${e.target.result}" type="\${file.type}">
-                                        </video>
-                                    \`;
-                                    
-                                    localStorage.setItem('birthday-video', e.target.result);
-                                };
-                                reader.readAsDataURL(file);
-                            }
-                        };
-                        input.click();
-                    }
-                    
-                    // Load saved birthday media
+                    // Auto-confetti on page load
                     document.addEventListener('DOMContentLoaded', function() {
-                        // Load photos
-                        const gallery = document.getElementById('birthday-gallery');
-                        if (gallery) {
-                            for (let i = 0; i < 6; i++) {
-                                const savedPhoto = localStorage.getItem(\`birthday-photo-\${i}\`);
-                                if (savedPhoto) {
-                                    const photoItems = gallery.querySelectorAll('.photo-item');
-                                    if (photoItems[i]) {
-                                        photoItems[i].innerHTML = \`<img src="\${savedPhoto}" alt="Birthday photo \${i + 1}">\`;
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // Load video
-                        const savedVideo = localStorage.getItem('birthday-video');
-                        if (savedVideo) {
-                            const placeholder = document.getElementById('birthday-video');
-                            if (placeholder) {
-                                placeholder.innerHTML = \`
-                                    <video controls style="width:100%;height:100%;object-fit:cover;border-radius:15px;">
-                                        <source src="\${savedVideo}" type="video/mp4">
-                                    </video>
-                                \`;
-                            }
-                        }
-                        
-                        // Auto-confetti
                         setTimeout(launchConfetti, 1000);
                     });
                 </script>
@@ -768,61 +586,64 @@ class BirthdayCountdownApp {
 
     // Helper methods for media handling
     getImagePath(dayNumber) {
-        // First check localStorage for uploaded image
-        const savedImage = localStorage.getItem('day' + dayNumber + '-image');
-        if (savedImage) return savedImage;
-        
-        // Then check if file exists in images folder
-        const imagePath = `${this.mediaConfig.baseImagePath}${dayNumber}${this.mediaConfig.imageExtension}`;
-        return imagePath;
+        return `${this.mediaConfig.baseImagePath}${dayNumber}${this.mediaConfig.imageExtension}`;
     }
 
     getVideoPath(dayNumber) {
-        const savedVideo = localStorage.getItem('day' + dayNumber + '-video');
-        if (savedVideo) return savedVideo;
-        
-        const videoPath = `${this.mediaConfig.baseVideoPath}${dayNumber}${this.mediaConfig.videoExtension}`;
-        return videoPath;
+        return `${this.mediaConfig.baseVideoPath}${dayNumber}${this.mediaConfig.videoExtension}`;
     }
 
     getImageHtml(dayNumber) {
         const imagePath = this.getImagePath(dayNumber);
-        if (this.checkMediaExists('image', dayNumber)) {
-            return `<img src="${imagePath}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Day ${dayNumber} image" onerror="this.src='${this.mediaConfig.fallbackImage}'">`;
-        } else {
-            return `
-                <i class="fas fa-heart-circle-plus"></i>
-                <p>Upload your special photo for Day ${dayNumber}</p>
-                <small>Recommended: 800x600 JPG or PNG</small>
-            `;
-        }
+        return `
+            <div style="position: relative; width: 100%; height: 100%;">
+                <img src="${imagePath}" 
+                     style="width:100%;height:100%;object-fit:cover;border-radius:10px;" 
+                     alt="Day ${dayNumber} image"
+                     onerror="this.onerror=null; this.src='${this.mediaConfig.fallbackImage}'; this.nextElementSibling.style.display='block';">
+                <div style="
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(255, 105, 180, 0.8);
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    display: none;
+                ">Day ${dayNumber}</div>
+            </div>
+        `;
     }
 
     getVideoHtml(dayNumber) {
         const videoPath = this.getVideoPath(dayNumber);
-        if (this.checkMediaExists('video', dayNumber)) {
-            return `
-                <video controls style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        return `
+            <div style="position: relative; width: 100%; height: 100%;">
+                <video controls 
+                       style="width:100%;height:100%;object-fit:cover;border-radius:10px;"
+                       poster="${this.getImagePath(dayNumber)}"
+                       onerror="this.onerror=null; this.innerHTML='<p style=\\'padding:20px;text-align:center;color:#db7093;\\'><i class=\\'fas fa-video-slash\\'></i><br>Video loading...</p>';">
                     <source src="${videoPath}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-            `;
-        } else {
-            return `
-                <i class="fas fa-video-circle"></i>
-                <p>Add a video message for Day ${dayNumber}</p>
-                <small>MP4 format, max 50MB</small>
-            `;
-        }
+                <div style="
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(255, 105, 180, 0.8);
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                ">Day ${dayNumber}</div>
+            </div>
+        `;
     }
 
-    checkMediaExists(type, dayNumber) {
-        if (type === 'image') {
-            return localStorage.getItem('day' + dayNumber + '-image') !== null;
-        } else if (type === 'video') {
-            return localStorage.getItem('day' + dayNumber + '-video') !== null;
-        }
-        return false;
+    imageExists(url) {
+        // This is a simple check - in production you'd want to use fetch or similar
+        return true; // Assume images exist for now
     }
 
     getDayColor(dayNumber) {
@@ -846,35 +667,32 @@ class BirthdayCountdownApp {
     }
 
     getBirthdayGalleryHtml() {
+        // Create 6 photo slots for birthday
         let html = '';
-        for (let i = 0; i < 6; i++) {
-            const savedPhoto = localStorage.getItem(`birthday-photo-${i}`);
-            if (savedPhoto) {
-                html += `<div class="photo-item"><img src="${savedPhoto}" alt="Birthday photo ${i + 1}"></div>`;
-            } else {
-                html += `<div class="photo-item">
-                    <i class="fas fa-${['camera', 'heart', 'birthday-cake', 'gift', 'star', 'champagne-glasses'][i]}"></i>
-                </div>`;
-            }
+        for (let i = 1; i <= 6; i++) {
+            const birthdayImagePath = `images/birthday-${i}.jpg`;
+            html += `
+                <div class="photo-item">
+                    <img src="${birthdayImagePath}" 
+                         alt="Birthday memory ${i}"
+                         onerror="this.onerror=null; this.src='${this.mediaConfig.fallbackImage}'; this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-heart\\'></i>';">
+                </div>
+            `;
         }
         return html;
     }
 
     getBirthdayVideoHtml() {
-        const savedVideo = localStorage.getItem('birthday-video');
-        if (savedVideo) {
-            return `
-                <video controls style="width:100%;height:100%;object-fit:cover;border-radius:15px;">
-                    <source src="${savedVideo}" type="video/mp4">
-                </video>
-            `;
-        } else {
-            return `
-                <i class="fas fa-video-circle" style="font-size: 5rem;"></i>
-                <p style="font-size: 1.2rem;">Upload a special birthday video message</p>
-                <small>MP4 format, max 100MB</small>
-            `;
-        }
+        const birthdayVideoPath = 'videos/birthday.mp4';
+        return `
+            <video controls 
+                   style="width:100%;height:100%;object-fit:cover;border-radius:15px;"
+                   poster="images/birthday-poster.jpg"
+                   onerror="this.onerror=null; this.innerHTML='<div style=\\'padding:40px;text-align:center;color:#db7093;\\'><i class=\\'fas fa-birthday-cake\\' style=\\'font-size:3rem;\\'></i><br><p>Birthday video coming soon!</p></div>';">
+                <source src="${birthdayVideoPath}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
     }
 
     getDayContent(dayNumber) {
@@ -884,7 +702,7 @@ class BirthdayCountdownApp {
         date.setDate(date.getDate() + dayNumber - 1);
 
         const messages = [
-            `Hey bebuu! So, only one month to go han. So you must be thinking how did I manage to make a website for your bday countdown? Toh aapko toh pata hi hai I am a quick learner hehe! And also I thought that I should start early , because one day is not enough to celebrate someone’s bday who means so much to me. 
+            `Hey bebuu! So, only one month to go han. So you must be thinking how did I manage to make a website for your bday countdown? Toh aapko toh pata hi hai I am a quick learner hehe! And also I thought that I should start early , because one day is not enough to celebrate someone's bday who means so much to me. 
 So now just thank yourself for dating me and wait for every short message daily through this till your birthday.
 And yes,
 HAPPY BIRTHDAY IN ADVANCE.`,
