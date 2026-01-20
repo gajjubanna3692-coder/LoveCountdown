@@ -709,22 +709,68 @@ HAPPY BIRTHDAY IN ADVANCE.`,
             `HMHMHMHM….aagye na itni jaldi ..nahi raha gya na mere bina…kyuki mujhse bhi nahi raha jaara!I really miss you. I miss the way YOU tease me. I miss YOU cooking for me. I miss US sitting in the balcony for hours. I miss US playing UNO ( humesha mai hi jeeti thi). I miss doing YOUR makeup. I miss US creating reels. I miss YOUR fragrance. I MISS THE WHOLE YOU. Because with you ,things feel lighter and even silence feels comfortable! I have never thought that someone can be this amazing and I still want to ask your mumma ki kya khake paida kiya tha aapko!
 Baaki this is day 2 of me saying THANKS FOR BEING IN MY LIFE.
 HAPPY BIRTHDAY IN ADVANCE.`,
-            `Your ${word.toLowerCase()} nature is what drew me to you and keeps me captivated every day.`,
-            `Thinking of you fills me with ${word.toLowerCase()}. You complete me in ways I never imagined.`,
-            `You make everything ${word.toLowerCase()}. Life was ordinary before you, extraordinary after.`,
-            `The ${word.toLowerCase()} you bring to my life is the greatest gift I've ever received.`,
-            `Every day, I discover new layers of ${word.toLowerCase()} in you. You're my endless adventure.`,
-            `Your ${word.toLowerCase()} touches everything around you. You make the world a better place.`,
-            `I ${word.toLowerCase()} you more with each passing day. My love for you grows endlessly.`,
-            `The ${word.toLowerCase()} we share is the most precious thing in my life.`,
-            `You have a ${word.toLowerCase()} way of making everything right. You're my peace.`,
-            `Our ${word.toLowerCase()} journey together is my favorite story.`,
-            `Your ${word.toLowerCase()} is the melody of my heart.`,
-            `In ${word.toLowerCase()}, I find you. In you, I find everything.`,
-            `The ${word.toLowerCase()} in your soul is what makes you uniquely you.`,
-            `Every ${word.toLowerCase()} moment with you is a treasure I hold dear.`,
-            `Your ${word.toLowerCase()} spirit inspires me to be better every day.`,
-            `Through ${word.toLowerCase()}, we've built something eternal.`
+            `SO today we gonna talk about the reasons I am with you because you toh are with me because of my biceps only ik :( 
+So I am with you because you dont let me feel the distance bw us. Because you can crack jokes even on serious situations and make me laugh. Because you make good white pasta. Because you don’t treat me like a 19 year old (iykyk). Because you click good pictures. Because you can lift me one hand. Because you get me flowers every time I came to Jaipur. And the last reason is… now I have become so much into you that I don’t need a reason to be with you. I am going to be with you no matter what!
+Issi baat pe HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my bebuuu, today I just wanna thank you. Thankyou for taking care of me like a spoiled baby. Thankyou for letting me know that true feelings do exist. Thankyou for making me realise I am not the only one who is a lil psycho. Thankyou for making me catch the feels of romantic songs. Thanks for feeding me with your hands. Thankyou for listening to all my yapping even when your eyes were screaming SLEEP. Thankyou for being less mature in front of me just to match my thinking. Thankyou for not dulling my spark. Thankyou for being my personal chatgpt, uber driver, coolie, tutor and what not. Thankyou for making every cringe couple reel with me. And lastly, thankyou so much for understanding me. I have noticed that I don’t need to explain everything to you. Things just flow. Our late night deep conversations work like therapy to me now, thanks for being my unpaid therapist too.
+Baaki my favourite THANKYOU for being in my life.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            ` To my bebuu, today I am gonna tell you what I feel about you. So I feel that you have a very pretty girlfriend. Acha thik h thik h, I feel that you have quietly become someone I think about during random moments of the day. I am not being dramatic but I have fallen bhot zor se in your love that you live in my mind rent free and whenever I think about you randomly in a day , there is always a  big smile on my face. I didn’t plan that to happen but it just happened because I feel you complete me. I feel that you have added value in my life. I feel that without talking to you, my day feels incomplete. I feel without your goodnight text, my sleep feels insomnia. And lastly, I feel that your love made me feel things. I feel that I am falling for you each day harder.
+And right now I am feeling to say THANKYOU for coming into my life.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `TODAY WE WILL TALK ABOUT ALL OUR MEMORIES
+Ahm! Okay so we had spend almost 214 days together and it is our 7 month anniversary! Babe itna tolerate krliya mne aapko? But honestly, it feels like forever! I kid you not I still remember our first meet and it feels like it was just yesterday. Aur tabse ab tak we have made so much memories together. And I am pretty sure this video made you recall all the memories we had and many more to go( I have saved many reels already). And  now we gonna talk about our favourite memory in this seven months of togetherness but sch btau toh ek memory choose krna is very tough kyuki every memory is unforgettable but my personal favourite memory is the day when we went out to MAHIMA to eat gol gappe and it was our first outing date and I know exactly why out of all the memories that one is my fav because I think that day I felt that yes , I am in right hands. If I am with this guy I don’t have to think or worry about the things, this guy can handle everything. I felt the way I have never felt before with anyone. There is smthng comforting knowing that you are there. I didn’t have to pretend , I was ME. Toh that day made me also realise that ,with you even golgappe tastes better and I can eat ice cream in a messy way cus you r always there to wipe that off. :)
+HAPPY SEVEN MONTHS MY CUTUUU & HAPPY BIRTHDAY IN ADVANCE!
+`,
+            `So my cutie we have spent almost 214 days together and it is our 7 month anniversary! Babe itna tolerate krliya mne aapko? Anyways , so on this 26th day of the month and for your 26th bday I am starting a series of “ABCD of my boyfriend” that means I am gonna use all 26 letters of alphabets to DESCRIBE my love(you).
+To the person who is really “ADDICTIVE” ! bebu your presence , your vibe , the whole you…..these are the things I am really addicted to. I mean you really make every room enlighten with your aura and your jokes ofc. I don’t know since when I have become so lucky mne toh somvaar ke vrat bhi nahi rakhe? Hehe jokes apart… I might not have said it directly to you but today I am saying … I am really grateful to have you in my life! Please don’t change yourself and be mine always ;)
+HAPPY SEVEN MONTHS CUTUU & HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my “ BRAVE BABY” Brave because you stay calm in tough situations and Baby because obviously you are ! and yes, this is the official day when didi agreed and approved for our relationship mtlb han starting m thoda unbelievable laga but then ofc it was YOU, the OG , Ishaan, who can make things work in every way. So, I am really glad that I met you because after meeting you I realised life can be fun too. It is always about the people not the place. And I found the best person with whom I can vibe on everything and everywhere. Trust me when I say this ,you are the coolest and funniest person I have ever met. Lekin sabke sath funny hone ki jarurt nahi h thik h 😊 I love your personality and more than that I love your inner child. And this child is gonna turn 26 in few days. So,
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my “CRAZY” (about me) bebu, I really love the way how you drive me crazy everytime. For example, you will drive me crazy when I am on my periods😊. You will crazily give me kisses. You will do crazy stuffs with me like hanging me down from the terrace. You will crazily sleep every night without texting me. But on top of that, I also know that how crazy you are about this relationship. And that’s what make me crazy about you. Toh dono crazy milke kaagi crazy krege in future.
+So wishing you crazily HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my “DEDICATED” baby, another thing I like about you is that you are really dedicated about the things you actually want to get happen. This relationship is the perfect example. You never gave up on us( asking for break doesn’t count though). You fought for us. You convinced didi. You never thought of getting teased by the tag ‘ paedophile’ lol. Your dedication towards your goals and your career also fascinates me. You are a ambitious person which makes you more sexier. Han mtlb sometimes yeh dedication get defeated by your sleep but thik hai kabhi kabhi toh chalta hai ( I said kabhi kabhi).
+Cheers to your dedication cus your bday month just started.
+19 days to go!
+`,
+            `To my “ENCOURAGING” baby, by saying encouraging I don’t mean,you encouraging yourself to go to gym. I mean …that you encouraging me to chase my dreams and never settle for less. You encouraging me to explore the world. You encouraging me to believe in the destiny. You encouraging me to study for my CFA. You encouraging me to achieve my daily goals. You encouraging me that even I could have opted science. Just like you are encouraging me in this video to do crunches . So, thanks for encouraging me always.
+One more day down.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To the “FIXER” ( of my moods), I think you already know why I call you that! Because of course, you know how to lighten my mood after a bad day. I still remember that day when I was crying like a crocodile because I watched amovie and kept saying I have no friends. And you stayed on the call until I stopped crying and after hanging up the call with you I had a big smile on my face. And also’ I cant stay mad at you for longer because you just have to count till 5 secs and I laugh. So you obviously fix my mood but you also know how to ruin it by going on a date with your sleep!
+But thanks for fixing my life too.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my very “GENTLE” person…i think everyone know this fact like every person in your life would know that you are a gentle person. because  you are! The first time we went to central park and I fell down you legit touched my feet to check kahi meko jyada toh nahi lagi. You are gentle with me in many ways ( I cant write it down but yk already). You were gentle with my friend when you dropped her all the way to her home. You were gentle with me when you came to Ajmer for me.
+I am so much Glad to have this Gentleman in my life.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `Dear kuchupuchuuuu,
+I hope this message finds you well, because I find you really “HOT”. Even, the most handsome man ever! ( meri nazro se dekho). You are the most funniest and cool person I have ever met. Shyad isliye aapse ab ladne ka bhi mann nahi krta because I know somewhere YOU WILL MAKE ME LAUGH IN THE MIDDLE OF THE ARGUMENT. This is the second most thing I like about you that you know how to handle me whenever I m feeling low, angry or nervous and the first most thing I like about you is that YOU HAVE A GORGOEUS GIRLFRIEND! Hehe kidding! I like everything about you just not those stickers from your screenshots! On a serious note, I wanna say tht you are the best thing happened to me as I always say this , so please, now you are stuck with me.
+Wouh only 15 days left!
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my “IN MY PRAYERS” person, I would be lying if I say you were never my 11:11 wish. Everytime, clock strikes 11:11 , I only manifest to be with you ASAP! I believe the real love is when you pray for each other. And I know you do too!. I have prayed each day to be with you when there was no chance of us being together. I have prayed to god to give me his best thing in the world and god gave me you ( jyada khush mt ho reel pe dekhi thi yeh line). All I am gonna say is May god bless you with everthing you want in your life. All the happiness of the world because you deserve it my love!
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `To my “JUST RIGHT” person, ugh! I never thought I would say this but yeah , you have always been right about the things! Be it didi se chupke milna, movie theatre m dusri movie dekhna, you are just right about every situation. Shyd isliye you got the right gurl for you..hehe ;) even I got the right guy without swiping right. See, I don’t know about the future but I know that being with you is always a right decision. Meeting you was the right destiny. Spending whole night talking to you was the right moment. Everything feels right when it comes to you, Right?
+HAPPY BIRTHDAY IN ADVANCE SUGARBOO!
+`,
+            `To my “KEEPER” person, see you are the person I will always hold onto. Lemme explain it in a simpler way baby gurl. A keeper is the one who stays when things are not cute, who chooses you even on bad days. A person who makes love feel safe instead of stressful. Basically, keeper is not someone who just know how to love, he is someone whom you trust your future with. With whom you can share everything without being judged.
+Because some people are too special to let go of !
+HAPPPY BIRTHDAY IN ADVANCE MY SECRET KEEPER.
+`,
+            `To the “LUCKY”(me) person, ofc you are the lucky person to have me in your life..hmhmhmhmhmhm. okay so I am also very lucky because out of 8 billion people my heart found you. ( again you are lucky in this statement bcus my heart chose you). Okay so , I am genuinely lucky not because life is perfect but bcus you are in it. Being lucky is waking up knowing someone genuinely chooses you. It’s feeling grateful for the random moments like random laughs,late talks , cute kalesh,and etc. loving you make me realise that luck doesn’t happen by accidents, it is the situation when a person feels right, safe and meant for you.
+So am lucky because having you by my side feels like winning at life.
+AHH! 10 days to go.
+HAPPY BITHDAY IN ADVANCE.
+`
         ];
 
         return {
