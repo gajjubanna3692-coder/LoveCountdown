@@ -10,10 +10,10 @@ class BirthdayCountdownApp {
         ];
         this.startDate = this.getStartDate();
         this.userCode = this.generateUserCode();
-        
+
         this.init();
     }
-    
+
     init() {
         this.setupServiceWorker();
         this.setupEventListeners();
@@ -22,7 +22,7 @@ class BirthdayCountdownApp {
         this.updateUserCode();
         this.checkInstallPrompt();
     }
-    
+
     getStartDate() {
         // Get start date from localStorage or set to today
         let startDate = localStorage.getItem('countdown_start_date');
@@ -32,7 +32,7 @@ class BirthdayCountdownApp {
         }
         return new Date(startDate);
     }
-    
+
     generateUserCode() {
         let code = localStorage.getItem('user_code');
         if (!code) {
@@ -41,47 +41,47 @@ class BirthdayCountdownApp {
         }
         return code;
     }
-    
+
     getCurrentDay() {
         const today = new Date();
         const diffTime = today - this.startDate;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         return Math.min(Math.max(diffDays + 1, 1), this.totalDays + 1);
     }
-    
+
     isDayUnlocked(dayNumber) {
         return dayNumber <= this.getCurrentDay();
     }
-    
+
     updateCountdown() {
         const currentDay = this.getCurrentDay();
         const daysLeft = Math.max(this.totalDays - currentDay + 1, 0);
         const nextLetter = currentDay <= this.totalDays ? this.letters[currentDay - 1] : '🎉';
-        
+
         document.getElementById('currentDay').textContent = currentDay;
         document.getElementById('daysLeft').textContent = daysLeft;
         document.getElementById('nextLetter').textContent = nextLetter;
     }
-    
+
     renderDaysGrid() {
         const container = document.getElementById('daysContainer');
         container.innerHTML = '';
-        
+
         for (let i = 1; i <= this.totalDays; i++) {
             const day = this.createDayCard(i);
             container.appendChild(day);
         }
-        
+
         // Add birthday card
         const birthdayCard = this.createBirthdayCard();
         container.appendChild(birthdayCard);
     }
-    
+
     createDayCard(dayNumber) {
         const isUnlocked = this.isDayUnlocked(dayNumber);
         const letter = this.letters[dayNumber - 1];
         const word = this.words[dayNumber - 1];
-        
+
         const card = document.createElement('div');
         card.className = `day-card ${isUnlocked ? 'unlocked' : 'locked'}`;
         card.innerHTML = `
@@ -100,17 +100,17 @@ class BirthdayCountdownApp {
                 </div>
             ` : ''}
         `;
-        
+
         if (isUnlocked) {
             card.addEventListener('click', () => this.openDayPage(dayNumber));
         }
-        
+
         return card;
     }
-    
+
     createBirthdayCard() {
         const isUnlocked = this.getCurrentDay() > this.totalDays;
-        
+
         const card = document.createElement('div');
         card.className = `day-card ${isUnlocked ? 'unlocked' : 'locked'}`;
         card.innerHTML = `
@@ -129,14 +129,14 @@ class BirthdayCountdownApp {
                 </div>
             ` : ''}
         `;
-        
+
         if (isUnlocked) {
             card.addEventListener('click', () => this.openBirthdayPage());
         }
-        
+
         return card;
     }
-    
+
     openDayPage(dayNumber) {
         const dayContent = this.getDayContent(dayNumber);
         const page = `
@@ -191,11 +191,11 @@ class BirthdayCountdownApp {
             </body>
             </html>
         `;
-        
+
         const newWindow = window.open();
         newWindow.document.write(page);
     }
-    
+
     openBirthdayPage() {
         const page = `
             <!DOCTYPE html>
@@ -292,20 +292,27 @@ class BirthdayCountdownApp {
             </body>
             </html>
         `;
-        
+
         const newWindow = window.open();
         newWindow.document.write(page);
     }
-    
+
     getDayContent(dayNumber) {
         const letter = this.letters[dayNumber - 1];
         const word = this.words[dayNumber - 1];
         const date = new Date(this.startDate);
         date.setDate(date.getDate() + dayNumber - 1);
-        
+
         const messages = [
-            `My love, you are absolutely ${word.toLowerCase()}. Every moment with you feels like a dream come true.`,
-            `To me, you embody ${word.toLowerCase()} in every way. Your presence lights up my world.`,
+            `Hey bebuu! So, only one month to go han. So you must be thinking how did I manage to make a website for your bday countdown? Toh aapko toh pata hi hai I am a quick learner hehe! And also I thought that I should start early , because one day is not enough to celebrate someone’s bday who means so much to me. 
+So now just thank yourself for dating me and wait for every short message daily through this till your birthday.
+And yes,
+HAPPY BIRTHDAY IN ADVANCE.
+`,
+            `HMHMHMHM….aagye na itni jaldi ..nahi raha gya na mere bina…kyuki mujhse bhi nahi raha jaara!I really miss you. I miss the way YOU tease me. I miss YOU cooking for me. I miss US sitting in the balcony for hours. I miss US playing UNO ( humesha mai hi jeeti thi). I miss doing YOUR makeup. I miss US creating reels. I miss YOUR fragrance. I MISS THE WHOLE YOU. Because with you ,things feel lighter and even silence feels comfortable! I have never thought that someone can be this amazing and I still want to ask your mumma ki kya khake paida kiya tha aapko!
+Baaki this is day 2 of me saying THANKS FOR BEING IN MY LIFE.
+HAPPY BIRTHDAY IN ADVANCE.
+`,
             `${word} - that's what you are to me. The very definition of it in human form.`,
             `Thinking of you fills me with ${word.toLowerCase()}. You complete me in ways I never imagined.`,
             `Your ${word.toLowerCase()} nature is what drew me to you and keeps me captivated every day.`,
@@ -325,7 +332,7 @@ class BirthdayCountdownApp {
             `Your ${word.toLowerCase()} spirit inspires me to be better every day.`,
             `Through ${word.toLowerCase()}, we've built something eternal.`
         ];
-        
+
         return {
             day: dayNumber,
             letter: letter,
@@ -334,33 +341,33 @@ class BirthdayCountdownApp {
             message: messages[dayNumber - 1] || `You are ${word.toLowerCase()} to me in every way. Today and always.`
         };
     }
-    
+
     updateUserCode() {
         document.getElementById('userCode').textContent = this.userCode;
     }
-    
+
     setupEventListeners() {
         // Install button
         document.getElementById('installBtn').addEventListener('click', () => {
             this.promptInstall();
         });
-        
+
         // Notifications button
         document.getElementById('notifyBtn').addEventListener('click', () => {
             this.showNotificationModal();
         });
-        
+
         // Copy code button
         document.getElementById('copyCode').addEventListener('click', () => {
             navigator.clipboard.writeText(this.userCode);
             alert('Code copied to clipboard!');
         });
-        
+
         // Modal close
         document.querySelector('.close-modal').addEventListener('click', () => {
             document.getElementById('notificationModal').style.display = 'none';
         });
-        
+
         // Close modal on outside click
         window.addEventListener('click', (e) => {
             const modal = document.getElementById('notificationModal');
@@ -368,18 +375,18 @@ class BirthdayCountdownApp {
                 modal.style.display = 'none';
             }
         });
-        
+
         // Daily update check
         setInterval(() => {
             this.updateCountdown();
             this.renderDaysGrid();
         }, 60000); // Check every minute
     }
-    
+
     showNotificationModal() {
         document.getElementById('notificationModal').style.display = 'block';
     }
-    
+
     promptInstall() {
         if (this.deferredPrompt) {
             this.deferredPrompt.prompt();
@@ -393,7 +400,7 @@ class BirthdayCountdownApp {
             alert('Installation is already available in your browser menu or has been completed.');
         }
     }
-    
+
     checkInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -401,7 +408,7 @@ class BirthdayCountdownApp {
             document.getElementById('installBtn').style.display = 'flex';
         });
     }
-    
+
     setupServiceWorker() {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
