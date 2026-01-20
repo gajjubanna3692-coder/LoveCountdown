@@ -146,7 +146,7 @@ class BirthdayCountdownApp {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Day ${dayNumber}: ${dayContent.word}</title>
-                <link rel="stylesheet" href="../styles.css">
+                <link rel="stylesheet" href="./styles.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
                 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
             </head>
@@ -187,7 +187,7 @@ class BirthdayCountdownApp {
                     </div>
                 </div>
                 
-                <script src="../app.js"></script>
+                <script src="./app.js"></script>
             </body>
             </html>
         `;
@@ -204,7 +204,7 @@ class BirthdayCountdownApp {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>🎉 Happy Birthday! 🎉</title>
-                <link rel="stylesheet" href="../styles.css">
+                <link rel="stylesheet" href="./styles.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
                 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
             </head>
@@ -251,7 +251,7 @@ class BirthdayCountdownApp {
                     </div>
                 </div>
                 
-                <script src="../app.js"></script>
+                <script src="./app.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
                 <script>
                     document.getElementById('confettiBtn').addEventListener('click', function() {
