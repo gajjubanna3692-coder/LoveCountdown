@@ -1,56 +1,96 @@
-name: 🎂 Daily Birthday Countdown Notifications
+# .github/workflows/telegram-notifications.yml
+name: 🎂 Daily Romantic Notifications
 
 on:
   schedule:
     # Runs at 10:00 AM UTC every day
-    # Format: minute hour day month day-of-week
     - cron: '0 10 * * *'
-  
-  # Allow manual triggering from GitHub UI
-  workflow_dispatch:
-    inputs:
-      day_override:
-        description: 'Override day number (1-20)'
-        required: false
-        type: number
-
-# Add permissions for workflow
-permissions:
-  contents: write  # Allows writing to subscribers.json
+  workflow_dispatch:  # Allows manual run
 
 jobs:
-  send-daily-notification:
+  send-notifications:
     runs-on: ubuntu-latest
     
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
+        uses: actions/checkout@v4
+        
       - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
+          cache: 'npm'  # This enables caching
           
       - name: 📦 Install dependencies
-        run: npm init -y && npm install dotenv
-        
-      - name: 🤖 Send Telegram notifications
+        run: npm ci  # Uses package-lock.json for exact versions
+          
+      - name: 🔍 Debug information
+        run: |
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Current directory: $(pwd)"
+          echo "Files:"
+          ls -la
+          echo ""
+          echo "Checking package.json..."
+          if [ -f "package.json" ]; then
+            echo "✅ package.json exists"
+          else
+            echo "❌ package.json missing"
+            exit 1
+          fi
+          
+          if [ -f "package-lock.json" ]; then
+            echo "✅ package-lock.json exists"
+          else
+            echo "⚠️  package-lock.json missing, generating..."
+            npm install
+          fi
+          
+      - name: 📋 Check secrets (safe)
+        run: |
+          echo "Checking environment variables..."
+          if [ -n "${{ secrets.TELEGRAM_BOT_TOKEN }}" ]; then
+            echo "✅ TELEGRAM_BOT_TOKEN is set"
+          else
+            echo "❌ TELEGRAM_BOT_TOKEN is not set"
+            echo "Please add it in: Settings → Secrets → TELEGRAM_BOT_TOKEN"
+            exit 1
+          fi
+          
+          if [ -n "${{ secrets.APP_BASE_URL }}" ]; then
+            echo "✅ APP_BASE_URL is set"
+            echo "URL: ${{ secrets.APP_BASE_URL }}"
+          else
+            echo "❌ APP_BASE_URL is not set"
+            echo "Please add it in: Settings → Secrets → APP_BASE_URL"
+            exit 1
+          fi
+          
+      - name: 🤖 Run Telegram Bot
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          GITHUB_PAGES_URL: ${{ secrets.GITHUB_PAGES_URL }}
-          DAY_OVERRIDE: ${{ inputs.day_override }}
-        run: node telegram-bot.js
-        
-      - name: 💾 Commit any changes
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          COUNTDOWN_START_DATE: ${{ secrets.COUNTDOWN_START_DATE || '2024-01-01' }}
         run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
-          git add -A
-          git commit -m "📅 Update subscriber data" || echo "No changes to commit"
-          git push
+          echo "Starting Telegram bot..."
+          node telegram-bot.js
           
-      - name: ✅ Completion message
-        run: echo "🎉 Daily notifications sent successfully!"
+      - name: ✅ Success log
+        if: success()
+        run: echo "🎉 Daily notifications sent successfully at $(date)"
+        
+      - name: 📝 Create run log
+        if: always()
+        run: |
+          echo "Workflow run completed at: $(date)" >> workflow-log.txt
+          echo "Status: ${{ job.status }}" >> workflow-log.txt
+          echo "Run ID: ${{ github.run_id }}" >> workflow-log.txt
+          echo "Run Number: ${{ github.run_number }}" >> workflow-log.txt
+          
+      - name: 📤 Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-logs
+          path: workflow-log.txt
