@@ -949,3 +949,105 @@ body {
     pointer-events: none;
     z-index: 9999;
 }
+
+
+/* Add these styles to your existing CSS */
+
+/* Number day styling */
+.day-card .card-header .day-letter.number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8rem;
+    font-weight: bold;
+}
+
+.day-header-section .day-letter-display.number {
+    font-family: 'Poppins', sans-serif;
+    animation: pulse 2s infinite;
+    font-size: 7rem;
+}
+
+/* Number countdown items */
+.countdown-item:nth-child(3) span {
+    animation: countdown-pulse 3s infinite;
+}
+
+/* Progress bar for 30 days */
+.day-progress .progress-info strong {
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .days-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    
+    .hero h2 {
+        font-size: 1.6rem;
+    }
+    
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+    
+    .countdown-display {
+        gap: 10px;
+    }
+    
+    .countdown-item {
+        padding: 15px;
+    }
+    
+    .countdown-item span {
+        font-size: 2.2rem;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+@keyframes countdown-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        color: white;
+    }
+    50% { 
+        transform: scale(1.2);
+        color: #ffeb3b;
+    }
+}
+
+/* Day card enhancements */
+.day-card.unlocked {
+    border: 3px solid var(--primary-pink);
+    position: relative;
+}
+
+.day-card.unlocked::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink), var(--primary-pink));
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+/* Lock overlay improvements */
+.lock-overlay {
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+}
+
+.lock-overlay i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
