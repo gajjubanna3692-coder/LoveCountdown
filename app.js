@@ -247,7 +247,7 @@ class BirthdayCountdownApp {
         return "A romantic surprise waiting for you...";
     }
 
-    openDayPage(dayNumber) {
+        openDayPage(dayNumber) {
         const dayContent = this.getDayContent(dayNumber);
         const imagePath = this.getImagePath(dayNumber);
         const videoPath = this.getVideoPath(dayNumber);
@@ -269,15 +269,15 @@ class BirthdayCountdownApp {
                     }
                 </style>
             </head>
-            <body class="day-page">
+            <body>
                 <div class="day-page-container">
                     <div class="day-content-wrapper">
                         
                         <!-- Navigation -->
                         <nav class="day-nav">
-                            <button class="back-button" onclick="window.history.back()">
+                            <a href="./index.html" class="back-button">
                                 <i class="fas fa-arrow-left"></i> Back to Countdown
-                            </button>
+                            </a>
                             <div class="day-navigation">
                                 <button class="nav-button prev-day" onclick="goToPreviousDay(${dayNumber})" ${dayNumber <= 1 ? 'disabled' : ''}>
                                     <i class="fas fa-chevron-left"></i>
@@ -298,15 +298,14 @@ class BirthdayCountdownApp {
                             <div class="day-header-content">
                                 ${dayContent.isAlphabet ?
                 `<div class="day-indicator">Letter ${dayContent.letter} of 26</div>
-                                     <div class="day-letter-display">${dayContent.letter}</div>
-                                     <h1 class="day-word-title">is for ${dayContent.word}</h1>`
+                 <div class="day-letter-display">${dayContent.letter}</div>
+                 <h1 class="day-word-title">is for ${dayContent.word}</h1>` 
                 :
                 `<div class="day-indicator">Day ${dayNumber} of ${this.totalDays}</div>
-                                     <div class="day-letter-display" style="font-size: 5rem;">${dayNumber}</div>
-                                     <h1 class="day-word-title">${dayContent.title}</h1>`
+                 <div class="day-letter-display" style="font-size: 5rem;">${dayNumber}</div>
+                 <h1 class="day-word-title">${dayContent.title}</h1>`
             }
                                 <div class="day-date">${dayContent.date}</div>
-                                ${dayContent.isAlphabet ? `<div class="day-progress">Day ${dayNumber} of ${this.totalDays}</div>` : ''}
                             </div>
                         </section>
                         
@@ -327,10 +326,10 @@ class BirthdayCountdownApp {
                         
                         <!-- Media Section -->
                         <section class="media-section">
-                            <h3 class="media-header">
+                            <div class="media-header">
                                 <i class="fas fa-images"></i>
-                                Today's Special Surprise
-                            </h3>
+                                <h3>Today's Special Surprise</h3>
+                            </div>
                             
                             <div class="media-grid">
                                 <!-- Image Card -->
@@ -339,7 +338,7 @@ class BirthdayCountdownApp {
                                         <i class="fas fa-image"></i>
                                         <h4>Your Special Image</h4>
                                     </div>
-                                    <div class="media-placeholder" id="image-placeholder-${dayNumber}">
+                                    <div class="media-placeholder">
                                         ${this.getImageHtml(dayNumber)}
                                     </div>
                                 </div>
@@ -350,7 +349,7 @@ class BirthdayCountdownApp {
                                         <i class="fas fa-video"></i>
                                         <h4>Your Video Message</h4>
                                     </div>
-                                    <div class="media-placeholder" id="video-placeholder-${dayNumber}">
+                                    <div class="media-placeholder">
                                         ${this.getVideoHtml(dayNumber)}
                                     </div>
                                 </div>
@@ -359,7 +358,10 @@ class BirthdayCountdownApp {
                         
                         <!-- Progress Section -->
                         <section class="progress-section">
-                            <h3 class="progress-header">Countdown Progress</h3>
+                            <div class="progress-header">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Countdown Progress</h3>
+                            </div>
                             <div class="day-progress">
                                 <div class="progress-circle">
                                     <svg class="progress-ring" width="100" height="100">
@@ -469,15 +471,17 @@ class BirthdayCountdownApp {
         }
     }
 
-    getNextDayPreview(dayNumber) {
+        getNextDayPreview(dayNumber) {
         if (dayNumber < 4) {
             return `Day ${dayNumber + 1}`;
         } else if (dayNumber === 4) {
-            return 'Letter A - Adore';
+            return 'Letter A - Addictive';
         } else if (dayNumber < this.totalDays) {
             const nextAlphabetIndex = dayNumber - 4;
             if (nextAlphabetIndex < this.letters.length) {
-                return `Letter ${this.letters[nextAlphabetIndex]} - ${this.alphabetWords[nextAlphabetIndex]}`;
+                const nextLetter = this.letters[nextAlphabetIndex];
+                const nextWord = this.alphabetWords[nextAlphabetIndex];
+                return `Letter ${nextLetter} - ${nextWord}`;
             }
         }
         return 'Birthday!';
