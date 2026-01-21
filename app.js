@@ -75,16 +75,16 @@ HAPPY BIRTHDAY!!!!!`
 
 class BirthdayCountdownApp {
     constructor() {
-        this.startDate = new Date('2026-01-22'); // Fixed start date
-        this.birthdayDate = new Date('2026-02-20'); // Birthday date
-        this.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Full alphabet
+        this.startDate = new Date('2026-01-22');
+        this.birthdayDate = new Date('2026-02-20');
+        this.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         this.alphabetMessages = alphabetMessages;
-        
-        this.totalDays = 30; // Total days from Jan 22 to Feb 20
-        this.daysWithNumbers = 5; // First 5 days show numbers only
-        
+
+        this.totalDays = 30; // Jan 22 to Feb 20 = 30 days
+        this.daysWithNumbers = 4; // First 4 days show numbers
+
         this.userCode = this.generateUserCode();
-        
+
         // Fixed media paths
         this.mediaConfig = {
             baseImagePath: 'images/day-',
@@ -130,14 +130,18 @@ class BirthdayCountdownApp {
     updateCountdown() {
         const currentDay = this.getCurrentDay();
         const daysLeft = Math.max(this.totalDays - currentDay + 1, 0);
-        
+
         // Determine what to show in Next Letter
         let nextLetter;
         if (currentDay <= this.daysWithNumbers) {
-            nextLetter = (this.daysWithNumbers - currentDay + 1);
-        } else if (currentDay <= this.totalDays) {
+            // Next number (decreasing from 26)
+            nextLetter = (26 - currentDay + 1);
+        } else if (currentDay < this.totalDays) {
+            // Next letter in alphabet
             const letterIndex = currentDay - this.daysWithNumbers - 1;
-            nextLetter = this.letters[letterIndex] || '🎉';
+            nextLetter = this.letters[letterIndex] || 'Z';
+        } else if (currentDay === this.totalDays) {
+            nextLetter = 'Z 🎂';
         } else {
             nextLetter = '🎉';
         }
@@ -162,19 +166,24 @@ class BirthdayCountdownApp {
 
     createDayCard(dayNumber) {
         const isUnlocked = this.isDayUnlocked(dayNumber);
-        
+
         // Determine display based on day number
         let dayLetter, dayWord;
-        
+
         if (dayNumber <= this.daysWithNumbers) {
-            // Number days (Days 1-5)
-            dayLetter = (this.daysWithNumbers - dayNumber + 1).toString();
-            dayWord = `Day ${dayNumber}`;
+            // Number days (Days 1-4)
+            const daysLeft = 26 - dayNumber + 1;
+            dayLetter = daysLeft.toString();
+            dayWord = `${daysLeft} Days Left`;
+        } else if (dayNumber === this.totalDays) {
+            // Day 30 - Birthday with letter Z
+            dayLetter = 'Z';
+            dayWord = 'Birthday! 🎂';
         } else {
-            // Alphabet days (Days 6-30)
+            // Alphabet days (Days 5-29)
             const letterIndex = dayNumber - this.daysWithNumbers - 1;
-            dayLetter = this.letters[letterIndex] || '🎉';
-            
+            dayLetter = this.letters[letterIndex] || '';
+
             // Get word based on letter
             const letterWords = {
                 'A': 'Addictive', 'B': 'Brave', 'C': 'Crazy', 'D': 'Dedicated',
@@ -184,32 +193,41 @@ class BirthdayCountdownApp {
                 'P': 'Perfect', 'Q': 'Queen Treatment', 'R': 'Rare',
                 'S': 'Same As Me', 'T': 'Teacher', 'U': 'Unstoppable',
                 'V': 'Valuable', 'W': 'Worth It', 'X': 'X-tra Funny',
-                'Y': 'You - Idiot', 'Z': 'Zinda'
+                'Y': 'You - Idiot', 'Z': 'Zinda Birthday!'
             };
             dayWord = letterWords[dayLetter] || `Day ${dayNumber}`;
         }
 
         const card = document.createElement('div');
         card.className = `day-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+
+        // Special styling for birthday card
+        const isBirthday = dayNumber === this.totalDays;
+        const headerStyle = isBirthday ? 'style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);"' : '';
+
         card.innerHTML = `
-            <div class="card-header">
-                <div class="day-number">Day ${dayNumber}</div>
-                <div class="day-letter ${dayNumber <= this.daysWithNumbers ? 'number' : ''}">${dayLetter}</div>
-                <div class="day-word">${dayWord}</div>
+        <div class="card-header" ${headerStyle}>
+            <div class="day-number">Day ${dayNumber}</div>
+            <div class="day-letter ${dayNumber <= this.daysWithNumbers ? 'number' : ''}">${dayLetter}</div>
+            <div class="day-word">${dayWord}</div>
+        </div>
+        <div class="day-content">
+            <p>${isBirthday ? 'Your special birthday celebration!' : 'A romantic message waiting for you...'}</p>
+        </div>
+        ${!isUnlocked ? `
+            <div class="lock-overlay">
+                <i class="fas fa-lock"></i>
+                <p>Unlocks in ${dayNumber - this.getCurrentDay()} days</p>
             </div>
-            <div class="day-content">
-                <p>A romantic message waiting for you...</p>
-            </div>
-            ${!isUnlocked ? `
-                <div class="lock-overlay">
-                    <i class="fas fa-lock"></i>
-                    <p>Unlocks in ${dayNumber - this.getCurrentDay()} days</p>
-                </div>
-            ` : ''}
-        `;
+        ` : ''}
+    `;
 
         if (isUnlocked) {
-            card.addEventListener('click', () => this.openDayPage(dayNumber));
+            if (isBirthday) {
+                card.addEventListener('click', () => this.openBirthdayPage());
+            } else {
+                card.addEventListener('click', () => this.openDayPage(dayNumber));
+            }
         }
 
         return card;
@@ -249,7 +267,7 @@ class BirthdayCountdownApp {
         const imagePath = this.getImagePath(dayNumber);
         const videoPath = this.getVideoPath(dayNumber);
         const isNumberDay = dayNumber <= this.daysWithNumbers;
-        
+
         const page = `
             <!DOCTYPE html>
             <html lang="en">
@@ -669,31 +687,31 @@ class BirthdayCountdownApp {
 
     getDayContent(dayNumber) {
         let letter, word, message;
-        
+
         // Calculate the date for this day
         const date = new Date(this.startDate);
         date.setDate(date.getDate() + dayNumber - 1);
-        
+
         if (dayNumber <= this.daysWithNumbers) {
-            // Number days (Days 1-5)
-            const numberValue = this.daysWithNumbers - dayNumber + 1;
+            // Number days (Days 1-4)
+            // Days left: 26, 25, 24, 23
+            const numberValue = 26 - dayNumber + 1;
             letter = numberValue.toString();
             word = `Countdown Day ${dayNumber}`;
-            
-            // Messages for number days (Days 1-5)
+
+            // Messages for number days
             const numberMessages = [
                 `Hey bebuu! So, only one month to go han. So you must be thinking how did I manage to make a website for your bday countdown? Toh aapko toh pata hi hai I am a quick learner hehe! And also I thought that I should start early , because one day is not enough to celebrate someone's bday who means so much to me. So now just thank yourself for dating me and wait for every short message daily through this till your birthday. And yes, HAPPY BIRTHDAY IN ADVANCE.`,
                 `HMHMHMHM….aagye na itni jaldi ..nahi raha gya na mere bina…kyuki mujhse bhi nahi raha jaara!I really miss you. I miss the way YOU tease me. I miss YOU cooking for me. I miss US sitting in the balcony for hours. I miss US playing UNO ( humesha mai hi jeeti thi). I miss doing YOUR makeup. I miss US creating reels. I miss YOUR fragrance. I MISS THE WHOLE YOU. Because with you ,things feel lighter and even silence feels comfortable! I have never thought that someone can be this amazing and I still want to ask your mumma ki kya khake paida kiya tha aapko! Baaki this is day 2 of me saying THANKS FOR BEING IN MY LIFE. HAPPY BIRTHDAY IN ADVANCE.`,
                 `SO today we gonna talk about the reasons I am with you because you toh are with me because of my biceps only ik :( So I am with you because you dont let me feel the distance bw us. Because you can crack jokes even on serious situations and make me laugh. Because you make good white pasta. Because you don't treat me like a 19 year old (iykyk). Because you click good pictures. Because you can lift me one hand. Because you get me flowers every time I came to Jaipur. And the last reason is… now I have become so much into you that I don't need a reason to be with you. I am going to be with you no matter what! Issi baat pe HAPPY BIRTHDAY IN ADVANCE.`,
-                `To my bebuuu, today I just wanna thank you. Thankyou for taking care of me like a spoiled baby. Thankyou for letting me know that true feelings do exist. Thankyou for making me realise I am not the only one who is a lil psycho. Thankyou for making me catch the feels of romantic songs. Thanks for feeding me with your hands. Thankyou for listening to all my yapping even when your eyes were screaming SLEEP. Thankyou for being less mature in front of me just to match my thinking. Thankyou for not dulling my spark. Thankyou for being my personal chatgpt, uber driver, coolie, tutor and what not. Thankyou for making every cringe couple reel with me. And lastly, thankyou so much for understanding me. I have noticed that I don't need to explain everything to you. Things just flow. Our late night deep conversations work like therapy to me now, thanks for being my unpaid therapist too. Baaki my favourite THANKYOU for being in my life. HAPPY BIRTHDAY IN ADVANCE.`,
-                `To my bebuu, today I am gonna tell you what I feel about you. So I feel that you have a very pretty girlfriend. Acha thik h thik h, I feel that you have quietly become someone I think about during random moments of the day. I am not being dramatic but I have fallen bhot zor se in your love that you live in my mind rent free and whenever I think about you randomly in a day , there is always a big smile on my face. I didn't plan that to happen but it just happened because I feel you complete me. I feel that you have added value in my life. I feel that without talking to you, my day feels incomplete. I feel without your goodnight text, my sleep feels insomnia. And lastly, I feel that your love made me feel things. I feel that I am falling for you each day harder. And right now I am feeling to say THANKYOU for coming into my life. HAPPY BIRTHDAY IN ADVANCE.`
+                `To my bebuuu, today I just wanna thank you. Thankyou for taking care of me like a spoiled baby. Thankyou for letting me know that true feelings do exist. Thankyou for making me realise I am not the only one who is a lil psycho. Thankyou for making me catch the feels of romantic songs. Thanks for feeding me with your hands. Thankyou for listening to all my yapping even when your eyes were screaming SLEEP. Thankyou for being less mature in front of me just to match my thinking. Thankyou for not dulling my spark. Thankyou for being my personal chatgpt, uber driver, coolie, tutor and what not. Thankyou for making every cringe couple reel with me. And lastly, thankyou so much for understanding me. I have noticed that I don't need to explain everything to you. Things just flow. Our late night deep conversations work like therapy to me now, thanks for being my unpaid therapist too. Baaki my favourite THANKYOU for being in my life. HAPPY BIRTHDAY IN ADVANCE.`
             ];
             message = numberMessages[dayNumber - 1] || `Day ${dayNumber} of our countdown journey!`;
         } else {
-            // Alphabet days (Days 6-30)
+            // Alphabet days (Days 5-30)
             const letterIndex = dayNumber - this.daysWithNumbers - 1;
-            letter = this.letters[letterIndex] || '';
-            
+            letter = this.letters[letterIndex] || 'Z'; // Last day will be Z
+
             // Map letters to words
             const letterWords = {
                 'A': 'Addictive', 'B': 'Brave', 'C': 'Crazy', 'D': 'Dedicated',
@@ -703,12 +721,17 @@ class BirthdayCountdownApp {
                 'P': 'Perfect', 'Q': 'Queen Treatment', 'R': 'Rare',
                 'S': 'Same As Me', 'T': 'Teacher', 'U': 'Unstoppable',
                 'V': 'Valuable', 'W': 'Worth It', 'X': 'X-tra Funny',
-                'Y': 'You - Idiot', 'Z': 'Zinda'
+                'Y': 'You - Idiot', 'Z': 'Zinda Birthday!'
             };
             word = letterWords[letter] || `Day ${dayNumber}`;
-            
-            // Use your alphabet messages array
-            if (letterIndex >= 0 && letterIndex < this.alphabetMessages.length) {
+
+            // Special birthday message for Day 30 (Z)
+            if (dayNumber === this.totalDays) {
+                message = `To my " ZINDA BOYFRIEND" , Han bass itna hi likhugi aaj ke din 29 din kam padd gye kya tareef sunne hue jo aaj bhi aagye! Acha fine , here I am not gonna say anything now , I am done with all the expressed love by words now its time for some ACTIONS. BUT 2 shabd bol hi deti hu that....
+ On your birthday, I don't just wish you happiness; I wish you growth, peace, success, and everything your heart quietly hopes for. You deserve all the good things this world has to offer and a little extra—just because you're you and you have ME.
+So finally 
+HAPPY 26th BIRTHDAY!!!!! 🎂🎉`;
+            } else if (letterIndex >= 0 && letterIndex < this.alphabetMessages.length) {
                 message = this.alphabetMessages[letterIndex];
             } else {
                 message = `You are ${word.toLowerCase()} to me in every way. Today and always.`;
